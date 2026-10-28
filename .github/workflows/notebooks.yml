@@ -1,0 +1,72 @@
+# Weekly check that a sample of lessons still runs with the latest library
+# versions, on the three systems learners use. Also runs on demand:
+# GitHub > Actions > "Notebook check" > Run workflow.
+name: Notebook check
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"        # every Monday 06:00 UTC
+  workflow_dispatch:
+  pull_request:
+    paths: ["setup/requirements*.txt", "lib/**", "data/download.py", ".github/workflows/**"]
+
+jobs:
+  run-notebooks:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    env:
+      TF_CPP_MIN_LOG_LEVEL: "2"
+      MLFLOW_DISABLE_AGENT_HINT: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: setup/requirements*.txt
+
+      - name: Install the course environment
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r setup/requirements.txt -r setup/requirements-deep-learning.txt
+
+      - name: Cache the Online Retail dataset
+        uses: actions/cache@v4
+        with:
+          path: data/raw
+          key: online-retail-ii-v1
+
+      - name: Download data
+        run: python data/download.py
+
+      - name: Run sample lessons
+        run: |
+          status=0
+          for nb in \
+            setup/check_environment.ipynb \
+            modules/00-big-picture/01-why-machine-learning/lesson.ipynb \
+            modules/02-regression/02-linear-regression-by-hand/lesson.ipynb \
+            modules/04-trustworthy-models/08-pipelines/lesson.ipynb \
+            modules/05-powerful-models/04-xgboost-lightgbm/lesson.ipynb \
+            modules/08-deep-learning/04-backpropagation-by-hand/lesson.ipynb \
+            modules/10-deployment-mlops/02-fastapi/lesson.ipynb
+          do
+            echo "::group::$nb"
+            if python -m jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=900 \
+                 --output-dir "$RUNNER_TEMP/out" "$nb"; then
+              echo "OK  $nb" >> "$RUNNER_TEMP/summary.txt"
+            else
+              echo "FAIL $nb" >> "$RUNNER_TEMP/summary.txt"; status=1
+            fi
+            echo "::endgroup::"
+          done
+          cat "$RUNNER_TEMP/summary.txt" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit $status
