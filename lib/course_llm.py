@@ -104,10 +104,6 @@ def _setup() -> None:
         if PROVIDER == "anthropic" and not MODEL.startswith("claude"):
             raise ValueError(f"LLM_MODEL={MODEL} is not a Claude model, but LLM_PROVIDER is anthropic. "
                              "Remove LLM_MODEL from .env (or set a Claude model) when you switch provider.")
-        if PROVIDER == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY", "").startswith("sk-ant-api"):
-            print("Note: ANTHROPIC_API_KEY does not look like an API key (they start with "
-                  "'sk-ant-api'). Create one at console.anthropic.com > API Keys.")
-
 
 def info() -> str:
     """Print and return which provider and model the notebook is using."""
@@ -132,8 +128,9 @@ def _ask_anthropic(messages, system, max_tokens, schema):
         response = client.beta.messages.create(
             **kwargs, betas=["server-side-fallback-2026-07-01"], fallbacks="default")
     except anthropic.AuthenticationError:
-        raise RuntimeError("Claude rejected ANTHROPIC_API_KEY (401). Create an API key at "
-                           "console.anthropic.com > API Keys; it starts with 'sk-ant-api'.") from None
+        raise RuntimeError("Claude rejected ANTHROPIC_API_KEY (401). Check the key in .env is "
+                           "complete and active (console.anthropic.com > API Keys), and that the "
+                           "account has API credits.") from None
     except anthropic.NotFoundError:
         raise RuntimeError(f"Claude has no model '{MODEL}'. Remove LLM_MODEL from .env "
                            "to use the default.") from None
