@@ -13,7 +13,10 @@ data/raw/
 data/*.xlsx
 data/*.zip
 
-# Trained models and experiment logs produced while studying
+# Files notebooks write while running (exports, saved models, logs)
+modules/**/*.csv
+modules/**/*.xlsx
+modules/**/*.json
 models/
 mlruns/
 *.joblib
