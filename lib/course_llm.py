@@ -101,6 +101,12 @@ def _setup() -> None:
         default = (ANTHROPIC_DEFAULT_MODEL if PROVIDER == "anthropic"
                    else OPENAI_COMPATIBLE[PROVIDER][2])
         MODEL = os.environ.get("LLM_MODEL") or default
+        if PROVIDER == "anthropic" and not MODEL.startswith("claude"):
+            raise ValueError(f"LLM_MODEL={MODEL} is not a Claude model, but LLM_PROVIDER is anthropic. "
+                             "Remove LLM_MODEL from .env (or set a Claude model) when you switch provider.")
+        if PROVIDER == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY", "").startswith("sk-ant-api"):
+            print("Note: ANTHROPIC_API_KEY does not look like an API key (they start with "
+                  "'sk-ant-api'). Create one at console.anthropic.com > API Keys.")
 
 
 def info() -> str:

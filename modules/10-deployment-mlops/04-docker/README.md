@@ -46,6 +46,8 @@ The pinned libraries, measured as installed on the machine that produced these o
 | pydantic, joblib, fastapi, uvicorn | 8.1 together |
 | **total** | **261** |
 
+Inside the real container the same libraries take **397 MB**, not 261: Linux packages bundle their own copies of maths libraries (`numpy.libs`, `scipy.libs`), which macOS and Windows packages get elsewhere. Measured on a real build: base image `python:3.12-slim` 203 MB, libraries 397 MB, and `docker images` reports **728 MB** for the finished image. The notebook prints a smaller number, **155 MB**, because it reads the image's compressed size: what gets uploaded to a registry and downloaded by a server. Both are correct; they measure different things (download size vs space on disk).
+
 Our code is two Python files and the model is 2 KB. So nearly all of the image is the base image plus the scientific stack, and the model is a rounding error. That is the case for most classical ML services, and the reason the library step is cached separately.
 
 **Which steps rebuild when you retrain the model?** The steps run: base, workdir, copy requirements, install, copy `churn_model.py`, copy `api.py`, copy model, … The model copy is the first changed step, so only it and what follows rerun: seconds, not minutes.
@@ -90,7 +92,7 @@ The notebook, without needing Docker:
 - measures the libraries (the table above);
 - shows `CHURN_MODEL_PATH` redirecting `churn_model.py` to `/app/models/...`, the one line of the code that knows it is in a container.
 
-If Docker is running, it then builds the image, prints its size, starts a container, calls `/health` and stops it. The outputs committed with the course were produced on a machine where Docker was not running, so that cell shows the "not running" message. The pinned versions were checked to exist as Linux packages for Python 3.12 on both Intel/AMD and ARM machines.
+If Docker is running, it then builds the image, prints its size, starts a container, calls `/health` and stops it. The outputs committed with the course come from a real build with Docker 28.3 on an ARM Mac: the container answered `/health`, scored the example customer at 0.5244 (the same as the notebook in 10.2), rejected `orders: 0` with a 422 error, and ran as the non-root `appuser`. If Docker is not running on your machine, the cell prints a message instead. The pinned versions were checked to exist as Linux packages for Python 3.12 on both Intel/AMD and ARM machines.
 
 ## 8. Where it breaks
 
