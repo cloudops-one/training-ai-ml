@@ -12,7 +12,9 @@ Nothing to install. Every `lesson.ipynb` has an "Open in Colab" badge at the top
 
 ## Option B: Local install
 
-**Use Python 3.12.** Every library in this course (including TensorFlow and PyCaret) has been checked against it. Python 3.13 and 3.14 are too new for some of them, and 3.10/3.11 work but are not what the notebooks were tested on.
+**Use Python 3.12.** Every library in the main course (including TensorFlow) has been checked against it. Python 3.13 and 3.14 are too new for some of them, and 3.10/3.11 work but are not what the notebooks were tested on.
+
+The one exception is the optional PyCaret lesson (05.9): PyCaret only runs on Python 3.9–3.11, so it gets its own small environment. See [requirements-pycaret.txt](requirements-pycaret.txt). You can skip it without missing anything the rest of the course depends on.
 
 Check what you have:
 

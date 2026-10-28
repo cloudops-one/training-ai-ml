@@ -47,6 +47,27 @@ def ensure_online_retail() -> Path:
     return ONLINE_RETAIL_XLSX
 
 
+def load_retail(sheet: str = "Year 2010-2011"):
+    """Return the raw transactions as a DataFrame, fast after the first call.
+
+    Reading the Excel sheet takes 10-60 seconds, so the first call saves a
+    Parquet copy next to it; later calls read that copy in about a second.
+    """
+    import pandas as pd
+
+    cache = RAW / f"online_retail_{sheet.split()[-1]}.parquet"
+    if cache.exists():
+        return pd.read_parquet(cache)
+    df = pd.read_excel(ensure_online_retail(), sheet_name=sheet)
+    # Excel stores some codes and descriptions as numbers; make them all text
+    for col in ["Invoice", "StockCode", "Description"]:
+        df[col] = df[col].astype("string")
+    df.to_parquet(cache, index=False)
+    return df
+
+
 if __name__ == "__main__":
     ensure_online_retail()
+    for sheet in ["Year 2010-2011", "Year 2009-2010"]:
+        print(sheet, load_retail(sheet).shape)
     print("Done.")

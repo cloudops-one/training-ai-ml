@@ -1,0 +1,19 @@
+# Optional lesson 05.9 only. Install in a SEPARATE virtual environment.
+#
+# PyCaret 3.3 supports Python 3.9-3.11 only and pins older libraries
+# (scikit-learn 1.4, pandas 2.1, NumPy 1.26). Installing it into the main
+# course environment (Python 3.12) fails or downgrades everything else.
+# Google Colab now runs Python 3.12, so `!pip install pycaret` there installs
+# but `import pycaret` raises an error.
+#
+# Tested on macOS with Python 3.11.18:
+#   python3.11 -m venv .venv-pycaret
+#   source .venv-pycaret/bin/activate          # Windows: .venv-pycaret\Scripts\activate
+#   pip install -r setup/requirements-pycaret.txt
+#   python -m ipykernel install --user --name pycaret --display-name "Python 3.11 (PyCaret)"
+# Then open modules/05-powerful-models/09-automl-pycaret/lesson.ipynb and pick that kernel.
+pycaret==3.3.2
+pyarrow>=14,<16        # newer pyarrow needs NumPy 2, PyCaret pins NumPy 1.26
+shap>=0.44
+requests>=2.32
+ipykernel>=6.29

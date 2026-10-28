@@ -17,6 +17,7 @@ data/*.zip
 modules/**/*.csv
 modules/**/*.xlsx
 modules/**/*.json
+modules/**/*.log
 models/
 mlruns/
 *.joblib

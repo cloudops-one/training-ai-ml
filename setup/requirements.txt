@@ -15,6 +15,7 @@ mlxtend>=0.23
 optuna>=4.0
 joblib>=1.4
 openpyxl>=3.1
+pyarrow>=17.0
 requests>=2.32
 tqdm>=4.66
 jupyter>=1.1
