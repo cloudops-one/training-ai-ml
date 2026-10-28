@@ -201,9 +201,9 @@ def ask(prompt: str, system=None, max_tokens=16000, temperature=None) -> str:
     return chat([{"role": "user", "content": prompt}], system, max_tokens, temperature)
 
 
-def ask_json(prompt: str, schema: dict, system=None, max_tokens=16000) -> dict:
+def ask_json(prompt: str, schema: dict, system=None, max_tokens=16000, temperature=None) -> dict:
     """Ask for an answer that matches a JSON schema and return it as a dict."""
-    text = chat([{"role": "user", "content": prompt}], system, max_tokens, schema=schema)
+    text = chat([{"role": "user", "content": prompt}], system, max_tokens, temperature, schema)
     return json.loads(text)
 
 

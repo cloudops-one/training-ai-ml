@@ -66,6 +66,35 @@ def load_retail(sheet: str = "Year 2010-2011"):
     return df
 
 
+def load_reviews(n: int = 10_000, seed: int = 42):
+    """Return n Amazon product reviews (half positive, half negative) as a DataFrame.
+
+    Source: amazon_polarity (Zhang, Zhao and LeCun, 2015; Apache 2.0), test split:
+    400,000 reviews rated 1-2 stars (label 0, negative) or 4-5 stars (label 1,
+    positive). ShopWave has no review data of its own, so these stand in for it.
+    Columns: title, content, text (title + content), label.
+    The first call downloads one 117 MB file; the sample is cached in data/raw/.
+    """
+    import pandas as pd
+
+    cache = RAW / f"reviews_{n}_{seed}.parquet"
+    if cache.exists():
+        return pd.read_parquet(cache)
+    from huggingface_hub import hf_hub_download
+
+    path = hf_hub_download("fancyzhx/amazon_polarity",
+                           "amazon_polarity/test-00000-of-00001.parquet", repo_type="dataset")
+    full = pd.read_parquet(path)
+    df = (full.groupby("label").sample(n // 2, random_state=seed)
+              .sample(frac=1, random_state=seed).reset_index(drop=True))
+    title = df["title"].str.strip()
+    sep = title.str[-1:].isin([".", "!", "?"]).map({True: " ", False: ". "})
+    df["text"] = title + sep + df["content"].str.strip()
+    df = df[["title", "content", "text", "label"]]
+    df.to_parquet(cache, index=False)
+    return df
+
+
 if __name__ == "__main__":
     ensure_online_retail()
     for sheet in ["Year 2010-2011", "Year 2009-2010"]:
