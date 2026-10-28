@@ -1,0 +1,29 @@
+# Reference material kept locally, never published
+docs/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Downloaded datasets (re-created by data/download.py)
+data/raw/
+data/*.xlsx
+data/*.zip
+
+# Trained models and experiment logs produced while studying
+models/
+mlruns/
+*.joblib
+*.keras
+*.h5
+
+# Secrets
+.env
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
