@@ -1,0 +1,23 @@
+# Data is downloaded, never committed
+data/raw/
+data/processed/
+
+# Models and experiment logs
+models/
+mlruns/
+*.joblib
+*.keras
+*.pt
+
+# Secrets
+.env
+
+# Python and notebooks
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,8 @@
+# Docker sends the whole build folder to the builder. Our build folder is the course
+# root, with the data, the virtual environment and every model, so ignore everything
+# and let in only the four files the Dockerfile copies.
+*
+!lib/churn_model.py
+!modules/10-deployment-mlops/02-fastapi/api.py
+!modules/10-deployment-mlops/04-docker/requirements-api.txt
+!models/churn_bundle.joblib

@@ -1,12 +1,12 @@
 # Cheatsheets
 
-One-page references to keep open while you work. They are written as the modules are completed.
+One-page references to keep open while you work. Each one links back to the lesson that teaches the idea.
 
-| Sheet | Status | Covers |
+| Sheet | Covers | Most useful from |
 |---|---|---|
-| [which-model-when.md](which-model-when.md) | planned (after Module 06) | Decision table: problem type → candidate models → when each wins |
-| [metrics.md](metrics.md) | planned (after Module 03) | Every regression and classification metric: formula, range, when to use |
-| [pandas.md](pandas.md) | planned (after Module 01) | The 40 Pandas operations you use daily |
-| [sklearn.md](sklearn.md) | planned (after Module 05) | fit / predict / Pipeline / CV / search in one page |
-| [keras.md](keras.md) | planned (after Module 08) | Model, compile, fit, callbacks, common layers |
-| [prompting.md](prompting.md) | planned (after Module 09) | Prompt patterns, structured output, RAG checklist |
+| [which-model-when.md](which-model-when.md) | Problem type → baseline → candidate models → when each wins, plus what the course actually measured | Module 03 onwards |
+| [metrics.md](metrics.md) | Every metric in the course: formula, range, direction, when to use, pitfall | Module 02 onwards |
+| [pandas.md](pandas.md) | The everyday Pandas operations on ShopWave columns, plus pandas 3 notes | Module 01 |
+| [sklearn.md](sklearn.md) | fit / predict, splits, the Pipeline + ColumnTransformer template, CV, tuning, saving, common errors | Module 04 onwards |
+| [keras.md](keras.md) | Model skeletons, layers with parameter formulas, loss by task, callbacks, transfer learning, PyTorch equivalents | Module 08 |
+| [prompting.md](prompting.md) | The course LLM helper, prompt patterns, RAG and evaluation checklists, safety, cost formula | Module 09 |

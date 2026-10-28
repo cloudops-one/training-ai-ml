@@ -1,0 +1,13 @@
+# TODO: keep only what your project uses, and pin versions once it works
+# (pip freeze > requirements-lock.txt is a quick way to record exact versions).
+numpy>=2.0
+pandas>=2.2
+matplotlib>=3.9
+scikit-learn>=1.5
+pyarrow>=17.0
+joblib>=1.4
+jupyter>=1.1
+# lightgbm>=4.5
+# shap>=0.46
+# streamlit>=1.38      # if you build a demo app
+# fastapi>=0.115       # if you build an API
