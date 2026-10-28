@@ -62,6 +62,8 @@ The decision you make most often with these libraries is **how many trees**. Her
 |---|---|---|---|---|---|---|---|
 | validation AUC | 0.693 | 0.694 | 0.694 | **0.696** | 0.693 | 0.691 | 0.687 |
 
+Your numbers may differ: XGBoost's results shift slightly between computers and operating systems, so on Windows the best round was 18 and training stopped after 68 trees. The rule below is the same either way.
+
 Walk through it as the library does. After round 34 the best score so far is 0.696. Rounds 35, 36, … 84 never beat it. After 50 rounds without improvement (34 + 50 = 84), training stops, and the model keeps only its first **34** trees. *Best round + patience = where it stops.* That is all early stopping is.
 
 Notice also how **flat** the curve is: 0.693 after 10 trees, 0.696 at best. On this data the boosters find most of what there is to find almost immediately, which foreshadows the results below.

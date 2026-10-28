@@ -19,7 +19,7 @@ Every library in the main course has been checked against **Python 3.12**. Pytho
 | | How |
 |---|---|
 | **Windows** | Download the 3.12 installer from [python.org](https://www.python.org/downloads/windows/). Tick **"Add python.exe to PATH"**. Check with `py -3.12 --version`. |
-| **macOS** | `brew install python@3.12` (or the installer from python.org). Check with `python3.12 --version`. |
+| **macOS** | `brew install python@3.12 libomp` (or the Python installer from python.org, plus `brew install libomp`). Check with `python3.12 --version`. `libomp` is a maths library XGBoost and LightGBM need on macOS; without it they fail with `Library not loaded: libomp.dylib`. Homebrew itself comes from [brew.sh](https://brew.sh). |
 | **Linux** | Ubuntu 24.04 and newer: `sudo apt install python3.12 python3.12-venv`. Ubuntu 22.04: add the deadsnakes PPA first (`sudo add-apt-repository ppa:deadsnakes/ppa`). Fedora: `sudo dnf install python3.12`. |
 
 The optional PyCaret lesson (05.9) is the one exception: PyCaret only runs on Python 3.9–3.11, so it gets its own small environment. See [requirements-pycaret.txt](requirements-pycaret.txt). Skipping it costs you nothing later.

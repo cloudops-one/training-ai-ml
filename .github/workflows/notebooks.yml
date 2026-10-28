@@ -33,6 +33,10 @@ jobs:
           cache: pip
           cache-dependency-path: setup/requirements*.txt
 
+      - name: Install libomp (macOS, as in setup/README.md)
+        if: runner.os == 'macOS'
+        run: brew install libomp
+
       - name: Install the course environment
         run: |
           python -m pip install --upgrade pip
