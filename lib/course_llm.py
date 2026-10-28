@@ -128,8 +128,15 @@ def _ask_anthropic(messages, system, max_tokens, schema):
     if schema:
         kwargs["output_config"] = {"format": {"type": "json_schema", "schema": schema}}
     # If the model declines a request, the API retries it on a fallback model.
-    response = client.beta.messages.create(
-        **kwargs, betas=["server-side-fallback-2026-07-01"], fallbacks="default")
+    try:
+        response = client.beta.messages.create(
+            **kwargs, betas=["server-side-fallback-2026-07-01"], fallbacks="default")
+    except anthropic.AuthenticationError:
+        raise RuntimeError("Claude rejected ANTHROPIC_API_KEY (401). Create an API key at "
+                           "console.anthropic.com > API Keys; it starts with 'sk-ant-api'.") from None
+    except anthropic.NotFoundError:
+        raise RuntimeError(f"Claude has no model '{MODEL}'. Remove LLM_MODEL from .env "
+                           "to use the default.") from None
     if response.stop_reason == "refusal":
         raise RuntimeError("The model declined this request.")
     last_usage.update(input=response.usage.input_tokens, output=response.usage.output_tokens)
