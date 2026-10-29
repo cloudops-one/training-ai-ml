@@ -67,6 +67,17 @@ Each lesson folder contains `README.md` (read this), `lesson.ipynb` (run this), 
 3. Start at [Module 00](modules/00-big-picture/). Do not skip it, even if you are impatient: it shows you the whole course in one notebook so you know where you are going.
 4. Tick lessons off in [ROADMAP.md](ROADMAP.md).
 
+### Optional: read the course as a website
+
+The lessons are also published as a website with navigation and search: **https://cloudops-one.github.io/training-ai-ml/**. To view it on your own computer instead, run this from the repository root (with your virtual environment active):
+
+```bash
+pip install -r website/requirements.txt   # once
+python website/build.py serve
+```
+
+Then open **http://127.0.0.1:8000/training-ai-ml/** in your browser. Press `Ctrl+C` to stop it. You still run the notebooks in Jupyter or Colab: the website links to them. More detail is in [website/README.md](website/README.md).
+
 ## Rules for studying
 
 - **Do the by-hand calculations.** They are short on purpose. This is where understanding happens.

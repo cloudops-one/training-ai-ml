@@ -2,7 +2,7 @@
 
     pip install -r website/requirements.txt
     python website/build.py            # builds website/_site
-    python website/build.py serve      # live preview at http://127.0.0.1:8000
+    python website/build.py serve      # live preview at http://127.0.0.1:8000/training-ai-ml/
 
 The Markdown pages (lessons, module intros, setup, cheatsheets) are copied
 into website/_src and rendered by MkDocs. Links to notebooks and code files
